@@ -83,7 +83,7 @@ resource "aws_lb_target_group" "target-group" {
 }
 
 resource "aws_lb_listener" "alb-listener" {
-    load_balancer_arn          = aws_lb.application-lb.arn
+    load_balancer_arn          = aws_lb.webshop-lb.arn
     port                       = 443
     protocol                   = "HTTPS"
     default_action {
