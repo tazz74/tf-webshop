@@ -104,7 +104,7 @@ resource "aws_lb_target_group" "target-group" {
 
 resource "aws_lb_listener" "alb-listener" {
     for_each                   = toset(data.aws_subnets.public.ids)
-    load_balancer_arn          = aws_lb.webshop-lb[each.value]
+    load_balancer_arn          = [each.value]
     port                       = 443
     protocol                   = "HTTPS"
     default_action {
