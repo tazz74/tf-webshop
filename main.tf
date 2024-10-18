@@ -72,7 +72,7 @@ resource "aws_lb" "webshop-lb" {
     security_groups = [aws_security_group.webshop_ext_access.id]
     
     for_each      = toset(data.aws_subnets.public.ids)
-    subnets       = each.value
+    subnets       = data.aws_subnets.public[each.value]
     
     tags = {
         Name = "webshop-alb"
@@ -108,7 +108,7 @@ resource "aws_lb_listener" "alb-listener" {
 }
 
 resource "aws_lb_target_group_attachment" "ec2_attach" {
-    count = length(aws_instance.Webshop)
+    count            = length(aws_instance.Webshop)
     target_group_arn = aws_lb_target_group.target-group.arn
     target_id        = aws_instance.Webshop[count.index].id
 }
