@@ -58,12 +58,8 @@ resource "aws_lb" "webshop-lb" {
     internal        = false
     ip_address_type     = "ipv4"
     load_balancer_type = "application"
-    security_groups = [aws_security_group.web-server.id]
-    subnets = [
-                data.aws_subnet.subnet1.id,
-                data.aws_subnet.subnet2.id,
-                data.aws_subnet.subnet3.id
-                ]
+    security_groups = [aws_security_group.Webserver.id]
+    subnets = aws_subnet.public.*.id
     tags = {
         Name = "webshop-alb"
         Environment = var.environment
@@ -99,5 +95,5 @@ resource "aws_lb_listener" "alb-listener" {
 resource "aws_lb_target_group_attachment" "ec2_attach" {
     count = length(aws_instance.Webshop)
     target_group_arn = aws_lb_target_group.target-group.arn
-    target_id        = aws_instance.web-server[count.index].id
+    target_id        = aws_instance.Webserver[count.index].id
 }
