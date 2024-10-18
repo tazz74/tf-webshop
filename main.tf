@@ -9,12 +9,15 @@ terraform {
 
 provider "aws" {
   region  = "eu-central-1"
+  access_key = var.AWS_ACCESS_KEY_ID
+  secret_key = var.AWS_SECRET_ACCESS_KEY
 }
 
 resource "aws_instance" "Webshop" {
   ami = "ami-0084a47cc718c111a"
   instance_type = "t2.micro"
   count = var.num_nodes
+
   subnet_id = var.subnet_id
   vpc_security_group_ids = [var.security_group_id]
   associate_public_ip_address = true
