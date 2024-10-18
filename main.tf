@@ -11,17 +11,13 @@ provider "aws" {
   region  = "eu-central-1"
 }
 
-data "aws_subnet_ids" "subnet" {
+
+data "aws_subnet_ids" "public" {
   vpc_id = var.vpc_id
-}
 
-data "aws_subnet" "subnet" {
-  for_each = data.aws_subnet_ids.subnet.ids
-  id       = each.value
-}
-
-output "subnet_cidr_blocks" {
-  value = [for s in data.aws_subnet.subnet : s.cidr_block]
+  tags = {
+    Tier = "Public"
+  }
 }
 
 resource "aws_security_group" "webshop_ext_access" {
@@ -73,9 +69,9 @@ resource "aws_lb" "webshop-lb" {
     load_balancer_type = "application"
     security_groups = [aws_security_group.webshop_ext_access.id]
     subnets = [
-                data.aws_subnet.subnet.id,
-                data.aws_subnet.subnet.id,
-                data.aws_subnet.subnet.id
+                data.aws_subnet.public.id,
+                data.aws_subnet.public.id,
+                data.aws_subnet.public.id
                 ]
     tags = {
         Name = "webshop-alb"
