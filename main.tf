@@ -13,9 +13,19 @@ provider "aws" {
 
 data "aws_subnets" "public" {
   filter {
-    name   = "tag:Name"
-    values = ["Public"]
+    name   = "vpc-id"
+    values = [var.vpc_id]
   }
+  tags = {
+    Name = "Public"
+  }
+}
+data "aws_subnet" "public" {
+  for_each = toset(data.aws_subnets.public.ids)
+  id       = each.value
+}
+output "public_subnets" {
+  value = [for s in data.aws_subnet.public : s.id] 
 }
 
 resource "aws_security_group" "webshop_ext_access" {
@@ -67,8 +77,7 @@ resource "aws_lb" "webshop-lb" {
     load_balancer_type = "application"
     security_groups = [aws_security_group.webshop_ext_access.id]
     
-    for_each      = toset(data.aws_subnets.public.ids)
-    subnets       = data.aws_subnets.public[each.value]
+    subnets       = data.aws_subnet.public : s.id
     
     tags = {
         Name = "webshop-alb"
