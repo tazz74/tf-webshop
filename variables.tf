@@ -1,9 +1,9 @@
 # Input variable definitions
 
-variable "vpc_name" {
-  description = "Name of VPC"
+variable "instance_name" {
+  description = "Name of VM"
   type        = string
-  default     = "development-vpc"
+  default     = "development-VM"
 }
 
 variable "subnet_id" {
