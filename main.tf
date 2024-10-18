@@ -11,9 +11,9 @@ provider "aws" {
   region  = "eu-central-1"
 }
 
-resource "aws_instance" "Web-server" {
+resource "aws_instance" "Webshop" {
   ami = "ami-0084a47cc718c111a"
-  instance_type = "t2.small"
+  instance_type = "t2.micro"
   
   subnet_id = var.subnet_id
   vpc_security_group_ids = [var.security_group_id]
@@ -29,6 +29,6 @@ resource "aws_instance" "Web-server" {
   EOF
   
   tags = {
-    Name = "WebServer"
+    Name = var.instance_name
   }
 }
