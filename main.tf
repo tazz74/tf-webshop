@@ -78,7 +78,7 @@ resource "aws_lb" "webshop-lb" {
     security_groups = [aws_security_group.webshop_ext_access.id]
     
     for_each = toset(data.aws_subnets.public.ids)
-    subnets = data.aws_subnet.public[each.key]
+    subnets = data.aws_subnet.[each.key]
     
     tags = {
         Name = "webshop-alb"
