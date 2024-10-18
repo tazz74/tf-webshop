@@ -11,6 +11,19 @@ provider "aws" {
   region  = "eu-central-1"
 }
 
+data "aws_subnet_ids" "subnet" {
+  vpc_id = var.vpc_id
+}
+
+data "aws_subnet" "subnet" {
+  for_each = data.aws_subnet_ids.subnet.ids
+  id       = each.value
+}
+
+output "subnet_cidr_blocks" {
+  value = [for s in data.aws_subnet.subnet : s.cidr_block]
+}
+
 resource "aws_security_group" "webshop_ext_access" {
     name        = "webshop_ext_access"
     description = "Allow incoming HTTP/HTTPS connections"
@@ -58,8 +71,12 @@ resource "aws_lb" "webshop-lb" {
     internal        = false
     ip_address_type     = "ipv4"
     load_balancer_type = "application"
-    security_groups = [aws_security_group.Webserver.id]
-    subnets = aws_subnet.public.*.id
+    security_groups = [aws_security_group.webshop_ext_access.id]
+    subnets = [
+                data.aws_subnet.subnet1.id,
+                data.aws_subnet.subnet2.id,
+                data.aws_subnet.subnet3.id
+                ]
     tags = {
         Name = "webshop-alb"
         Environment = var.environment
@@ -95,5 +112,5 @@ resource "aws_lb_listener" "alb-listener" {
 resource "aws_lb_target_group_attachment" "ec2_attach" {
     count = length(aws_instance.Webshop)
     target_group_arn = aws_lb_target_group.target-group.arn
-    target_id        = aws_instance.Webserver[count.index].id
+    target_id        = aws_instance.Webshop[count.index].id
 }
