@@ -77,7 +77,6 @@ resource "aws_lb" "webshop-lb" {
     load_balancer_type = "application"
     security_groups = [aws_security_group.webshop_ext_access.id]
     
-    value = [for s in data.aws_subnet.public : s.id]
     for_each = toset(data.aws_subnets.public.ids)
     subnets = data.aws_subnet.public[each.key]
     
