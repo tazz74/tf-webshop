@@ -11,8 +11,7 @@ provider "aws" {
   region  = "eu-central-1"
 }
 
-
-data "aws_subnet_ids" "public" {
+data "aws_subnets" "public" {
   vpc_id = var.vpc_id
 
   tags = {
