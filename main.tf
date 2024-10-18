@@ -79,9 +79,9 @@ resource "aws_lb" "webshop-lb" {
     
     value = [for s in data.aws_subnet.public : s.id]
     subnets = [
-                data.aws_subnet.public.id,
-                data.aws_subnet.public.id,
-                data.aws_subnet.public.id
+                data.aws_subnet.public[each.key].id,
+                data.aws_subnet.public[each.key].id,
+                data.aws_subnet.public[each.key].id
                 ]
     
     tags = {
