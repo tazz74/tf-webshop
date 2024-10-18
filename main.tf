@@ -12,10 +12,13 @@ provider "aws" {
 }
 
 data "aws_subnets" "public" {
-  vpc_id = var.vpc_id
+  filter {
+    name   = "vpc-id"
+    values = [var.vpc_id]
+  }
 
   tags = {
-    Tier = "Public"
+    Name = "Public"
   }
 }
 
@@ -67,11 +70,10 @@ resource "aws_lb" "webshop-lb" {
     ip_address_type     = "ipv4"
     load_balancer_type = "application"
     security_groups = [aws_security_group.webshop_ext_access.id]
-    subnets = [
-                data.aws_subnet.public1.id,
-                data.aws_subnet.public2.id,
-                data.aws_subnet.public3.id
-                ]
+    
+    for_each      = toset(data.aws_subnets.public.ids)
+    subnets       = each.value
+    
     tags = {
         Name = "webshop-alb"
         Environment = var.environment
