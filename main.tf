@@ -73,9 +73,9 @@ resource "aws_lb" "webshop-lb" {
     load_balancer_type = "application"
     security_groups = [aws_security_group.webshop_ext_access.id]
     subnets = [
-                data.aws_subnet.subnet1.id,
-                data.aws_subnet.subnet2.id,
-                data.aws_subnet.subnet3.id
+                data.aws_subnet.subnet.id,
+                data.aws_subnet.subnet.id,
+                data.aws_subnet.subnet.id
                 ]
     tags = {
         Name = "webshop-alb"
