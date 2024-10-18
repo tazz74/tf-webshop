@@ -6,6 +6,12 @@ variable "instance_name" {
   default     = "development-VM"
 }
 
+variable "num_nodes" {
+  description = "number of application nodes"
+  type        = string
+  default     = "1"
+}
+
 variable "subnet_id" {
   description = "ID of subnet to connect to"
   type        = string
