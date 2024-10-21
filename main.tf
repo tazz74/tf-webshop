@@ -27,7 +27,7 @@ resource "aws_instance" "Webshop" {
   apt -y update
   apt -y install apache2
   ufw allow 'Apache'
-  echo "<html><h1>webpage 1(I've been provisioned using HasiCorp Terraform!)</h1></html>" > /var/www/html/index.html
+  echo "<html><h1>I've been provisioned using HasiCorp Terraform Cloud!</h1></html>" > /var/www/html/index.html
   systemctl start apache2
   EOF
   
