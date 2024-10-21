@@ -51,11 +51,3 @@ resource "aws_instance" "Webshop" {
     Environment = var.environment
   }
 }
-
-# Output variable: Public IP address
-output "public_ip_0" {
-  value = "${aws_instance.Webshop[0].public_ip}"
-}
-output "public_ip_1" {
-  value = "${aws_instance.Webshop[1].public_ip}"
-}
