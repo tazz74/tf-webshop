@@ -30,7 +30,7 @@ resource "aws_instance" "Webshop" {
   ami = "ami-0745b7d4092315796"
   instance_type = "t2.micro"
   count = var.num_nodes
-  subnet_id = var.subnet_id
+  #subnet_id = var.subnet_id
   vpc_security_group_ids  = ["${aws_security_group.webshop_sg.id}"]
   associate_public_ip_address = true
 
