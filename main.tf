@@ -16,7 +16,7 @@ provider "aws" {
 
 # Create a Security Group for an EC2 instance
 resource "aws_security_group" "webshop_sg" {
-  name = "cli_demo_sg"
+  name = "webshop_sg"
   
   ingress {
     from_port	  = 8080
@@ -31,7 +31,7 @@ resource "aws_instance" "Webshop" {
   instance_type = "t2.micro"
   count = var.num_nodes
   subnet_id = var.subnet_id
-  vpc_security_group_ids  = ["${aws_security_group.cli_demo_sg.id}"]
+  vpc_security_group_ids  = ["${aws_security_group.webshop_sg.id}"]
   associate_public_ip_address = true
 
   user_data = <<-EOF
