@@ -54,5 +54,5 @@ resource "aws_instance" "Webshop" {
 
 # Output variable: Public IP address
 output "public_ip" {
-  value = "${aws_instance.Webshop[<INDEX>].public_ip}"
+  value = "${aws_instance.Webshop[index].public_ip}"
 }
