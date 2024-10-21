@@ -36,7 +36,7 @@ resource "aws_instance" "Webshop" {
 
   user_data = <<-EOF
       #!/bin/bash
-      echo "<hmtl><body><h1>I've been provisioned using HasiCorp Terraform Cloud!</h1></body></html>" > index.html
+      echo "<hmtl><body><h1>I've been provisioned using HashiCorp Terraform Cloud!</h1></body></html>" > index.html
       nohup busybox httpd -f -p 8080 &
       EOF
   
